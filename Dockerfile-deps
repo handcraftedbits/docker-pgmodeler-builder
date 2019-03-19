@@ -1,0 +1,11 @@
+FROM handcraftedbits/pgmodeler-builder-cc
+MAINTAINER HandcraftedBits <opensource@handcraftedbits.com>
+
+RUN cd /opt/mxe && \
+  make MXE_TARGETS='x86_64-w64-mingw32.shared x86_64-w64-mingw32.static' zlib && \
+  make MXE_TARGETS='x86_64-w64-mingw32.shared' libxml2 qtbase qtimageformats qtsvg && \
+  rm -rf pkg .ccache && \
+  mkdir -p /opt/src && \
+  cd /opt/src && \
+  git clone https://github.com/digitalist/pydeployqt.git
+

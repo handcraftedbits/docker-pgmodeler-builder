@@ -1,0 +1,16 @@
+FROM handcraftedbits/pgmodeler-builder-deps:latest
+MAINTAINER HandcraftedBits <opensource@handcraftedbits.com>
+
+ARG VERSION_POSTGRESQL=REL_11_0
+
+RUN cd /opt/src && \
+  git clone https://github.com/postgres/postgres.git && \
+  cd postgres && \
+  git checkout -b ${VERSION_POSTGRESQL} ${VERSION_POSTGRESQL} && \
+  cd /opt/src/postgres && \
+  PATH=/opt/mxe/usr/bin:${PATH} ./configure --host=x86_64-w64-mingw32.static --prefix=/opt/postgresql && \
+  PATH=/opt/mxe/usr/bin:${PATH} make && \
+  PATH=/opt/mxe/usr/bin:${PATH} make install && \
+  cd /opt/src && \
+  rm -rf postgres
+
