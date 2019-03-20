@@ -3,8 +3,8 @@ MAINTAINER HandcraftedBits <opensource@handcraftedbits.com>
 
 RUN cd /opt/mxe && \
   make MXE_TARGETS='x86_64-w64-mingw32.shared x86_64-w64-mingw32.static' zlib && \
-  make MXE_TARGETS='x86_64-w64-mingw32.shared' libxml2 qtbase qtimageformats qtsvg && \
-  rm -rf pkg .ccache && \
+  make MXE_TARGETS='x86_64-w64-mingw32.shared' cc dbus fontconfig freetds freetype harfbuzz jpeg libmysqlclient \
+    libpng libxml2 openssl pcre2 postgresql sqlite && \
   mkdir -p /opt/src && \
   cd /opt/src && \
   git clone https://github.com/digitalist/pydeployqt.git
