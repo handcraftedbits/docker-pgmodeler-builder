@@ -21,12 +21,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        env:
-          LATEST_TAG: git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1
 
       # Run docker container
       - name: Run docker image
-        run: docker run -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder ${{ env.LATEST_TAG }}
+        run: docker run -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder
 
       # prepare artifact
       - name: Prepare artifact

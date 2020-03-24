@@ -6,6 +6,7 @@ DIR_SRC=/opt/src
 DIR_SRC_PGMODELER=${DIR_SRC}/pgmodeler
 PATH=/opt/mxe/usr/bin:${PATH}
 TOOLCHAIN=x86_64-w64-mingw32.shared
+VERSION="${1}"
 
 function build() {
      local dir_mxe=/opt/mxe
@@ -81,17 +82,20 @@ function check_version() {
 
      echo ""
 
-     if [ -z "${1}" ]; then
+     if [ -z ${VERSION} ]; then
           echo -e "Missing pgModeler version.  Valid versions:\n"
           cat ${tags_file}
+
+          # checkout latest tag
+          VERSION="$(git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1)"
 
           exit 0
      fi
 
-     if [[ "${1}" =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]; then
-          git checkout -b ${1} ${1}
+     if [[ ${VERSION} =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]; then
+          git checkout -b ${VERSION} ${VERSION}
      else
-          echo -e "Invalid pgModeler version '${1}'.  Valid versions:\n"
+          echo -e "Invalid pgModeler version '${VERSION}'.  Valid versions:\n"
           cat ${tags_file}
 
           exit 0
@@ -100,5 +104,5 @@ function check_version() {
 
 clone_source
 clone_plugins_source
-check_version ${1}
+check_version ${VERSION}
 build
