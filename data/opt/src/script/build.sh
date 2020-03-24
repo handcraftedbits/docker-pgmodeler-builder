@@ -66,6 +66,12 @@ function clone_source() {
      git clone https://github.com/pgmodeler/pgmodeler.git
 }
 
+function clone_plugin_source() {
+     cd ${DIR_SRC}/pgmodeler
+
+     git clone https://github.com/pgmodeler/plugins.git
+}
+
 function check_version() {
      local tags_file=$(mktemp)
 
@@ -93,5 +99,6 @@ function check_version() {
 }
 
 clone_source
+clone_plugin_source
 check_version ${1}
 build
