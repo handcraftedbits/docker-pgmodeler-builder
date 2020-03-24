@@ -74,22 +74,24 @@ function clone_plugins_source() {
 }
 
 function check_version() {
-     local tags_file=$(mktemp)
+     # local tags_file=$(mktemp)
 
      cd ${DIR_SRC_PGMODELER}
 
-     git tag >${tags_file}
+     # git tag >${tags_file}
 
      echo ""
 
      if [ -z ${VERSION} ]; then
           echo -e "Missing pgModeler version.  Valid versions:\n"
-          cat ${tags_file}
+          # cat ${tags_file}
 
           # checkout latest tag
           VERSION="$(git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1)"
 
-          exit 0
+          echo ${VERSION}
+
+          # exit 0
      fi
 
      if [[ ${VERSION} =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]; then
