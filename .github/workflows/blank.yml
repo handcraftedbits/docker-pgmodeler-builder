@@ -24,7 +24,7 @@ jobs:
 
       # Run docker container
       - name: Run docker image
-        run: docker run -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder
+        run: docker run -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder v0.9.2
 
       # prepare artifact
       - name: Prepare artifact
