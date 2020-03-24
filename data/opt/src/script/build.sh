@@ -17,6 +17,10 @@ function clone_plugin_source() {
      cd ${DIR_SRC}/pgmodeler
 
      git clone https://github.com/pgmodeler/plugins.git
+
+     cd plugins
+     git checkout develop
+     rmm -rf dummy
 }
 
 function check_version() {
