@@ -22,13 +22,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      # Build docker container
+      - name: Build docker image
+        run: docker build . -t pgmodeler
+
       # Run docker container
       - name: Run docker image
-        run: docker run -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder
+        run: docker run pgmodeler -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler
 
       # prepare artifact
       - name: Prepare artifact
-        run: tar -cvzf ${{ github.workspace }}/pgmodeler-dist.tar.gz ${{ github.workspace }}/pgmodeler/*
+        run: tar -cvzf ${{ github.workspace }}/pgmodeler-dist.tar.gz ${{ github.workspace }}/pgmodeler/
 
       # upload artifact
       - uses: actions/upload-artifact@v2-preview
