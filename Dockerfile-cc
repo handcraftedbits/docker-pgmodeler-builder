@@ -8,5 +8,4 @@ RUN apt-get update && \
   cd /opt && \
   git clone https://github.com/mxe/mxe.git && \
   cd mxe && \
-  make MXE_TARGETS='x86_64-w64-mingw32.shared x86_64-w64-mingw32.static' cc
-
+  make MXE_TARGETS='x86_64-w64-mingw32.shared x86_64-w64-mingw32.static' cc zlib

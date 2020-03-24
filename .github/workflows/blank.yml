@@ -6,9 +6,9 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -17,24 +17,23 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # TODO: get latest tag: 
-    # git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1
-      
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        env:
+          LATEST_TAG: git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1
 
-    # Run docker container
-    - name: Run docker image
-      run: docker run -v ${PWD}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder v0.9.2
+      # Run docker container
+      - name: Run docker image
+        run: docker run -v ${{ github.workspace }}/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder ${{ env.LATEST_TAG }}
 
-    # prepare artifact
-    - name: Prepare artifact
-      run: tar -cvzf ${PWD}/pgmodeler-dist.tar.gz ${PWD}/pgmodeler/
-      
-    # upload artifact
-    - uses: actions/upload-artifact@v1
-      with:
-        name: pgmodeler
-        path: ${PWD}/pgmodeler-dist.tar.gz
+      # prepare artifact
+      - name: Prepare artifact
+        run: tar -cvzf ${{ github.workspace }}/pgmodeler-dist.tar.gz ${{ github.workspace }}/pgmodeler/
+
+      # upload artifact
+      - uses: actions/upload-artifact@v2-preview
+        with:
+          name: pgmodeler
+          path: ${{ github.workspace }}/pgmodeler-dist.tar.gz

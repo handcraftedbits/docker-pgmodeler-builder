@@ -4,4 +4,3 @@ MAINTAINER HandcraftedBits <opensource@handcraftedbits.com>
 RUN cd /opt/mxe && \
   make MXE_TARGETS='x86_64-w64-mingw32.shared' qtbase qtimageformats qtsvg && \
   rm -rf pkg .ccache
-

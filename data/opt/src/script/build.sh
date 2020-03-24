@@ -49,7 +49,7 @@ function build() {
 
      # Add QT configuration.
 
-     echo -e "[Paths]\nPrefix=.\nPlugins=qtplugins\nLibraries=." > ${DIR_INSTALL}/qt.conf
+     echo -e "[Paths]\nPrefix=.\nPlugins=qtplugins\nLibraries=." >${DIR_INSTALL}/qt.conf
 
      # Copy QT plugins.
 
@@ -66,25 +66,29 @@ function clone_source() {
      git clone https://github.com/pgmodeler/pgmodeler.git
 }
 
+function clone_plugins_source() {
+     cd ${DIR_SRC}/pgmodeler
+
+     git clone https://github.com/pgmodeler/plugins.git
+}
+
 function check_version() {
      local tags_file=$(mktemp)
 
      cd ${DIR_SRC_PGMODELER}
 
-     git tag > ${tags_file}
+     git tag >${tags_file}
 
      echo ""
 
-     if [ -z "${1}" ]
-     then
+     if [ -z "${1}" ]; then
           echo -e "Missing pgModeler version.  Valid versions:\n"
           cat ${tags_file}
 
           exit 0
      fi
 
-     if [[ "${1}" =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]
-     then
+     if [[ "${1}" =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]; then
           git checkout -b ${1} ${1}
      else
           echo -e "Invalid pgModeler version '${1}'.  Valid versions:\n"
@@ -95,5 +99,6 @@ function check_version() {
 }
 
 clone_source
+clone_plugins_source
 check_version ${1}
 build

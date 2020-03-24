@@ -13,4 +13,3 @@ RUN cd /opt/src && \
   PATH=/opt/mxe/usr/bin:${PATH} make install && \
   cd /opt/src && \
   rm -rf postgres
-
