@@ -20,6 +20,8 @@ function clone_plugin_source() {
 }
 
 function check_version() {
+     local tags_file=$(mktemp)
+
      cd ${DIR_SRC_PGMODELER}
 
      git tag >${tags_file}
