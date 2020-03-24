@@ -7,6 +7,28 @@ DIR_SRC_PGMODELER=${DIR_SRC}/pgmodeler
 PATH=/opt/mxe/usr/bin:${PATH}
 TOOLCHAIN=x86_64-w64-mingw32.shared
 
+function clone_source() {
+     cd ${DIR_SRC}
+
+     git clone https://github.com/pgmodeler/pgmodeler.git
+}
+
+function clone_plugin_source() {
+     cd ${DIR_SRC}/pgmodeler
+
+     git clone https://github.com/pgmodeler/plugins.git
+}
+
+function check_version() {
+     cd ${DIR_SRC_PGMODELER}
+
+     git tag >${tags_file}
+
+     if [[ "${1}" =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]; then
+          git checkout -b ${1} ${1}
+     fi
+}
+
 function build() {
      local dir_mxe=/opt/mxe
      local dir_mxe_toolchain=${dir_mxe}/usr/${TOOLCHAIN}
@@ -58,44 +80,6 @@ function build() {
      cp -R ${dir_plugins}/imageformats ${dir_plugins_install}
      cp ${dir_plugins}/platforms/qwindows.dll ${dir_plugins_install}/platforms
      cp -R ${dir_plugins}/printsupport ${dir_plugins_install}
-}
-
-function clone_source() {
-     cd ${DIR_SRC}
-
-     git clone https://github.com/pgmodeler/pgmodeler.git
-}
-
-function clone_plugin_source() {
-     cd ${DIR_SRC}/pgmodeler
-
-     git clone https://github.com/pgmodeler/plugins.git
-}
-
-function check_version() {
-     local tags_file=$(mktemp)
-
-     cd ${DIR_SRC_PGMODELER}
-
-     git tag >${tags_file}
-
-     echo ""
-
-     if [ -z "${1}" ]; then
-          echo -e "Missing pgModeler version.  Valid versions:\n"
-          cat ${tags_file}
-
-          exit 0
-     fi
-
-     if [[ "${1}" =~ $(echo ^\($(paste -sd'|' ${tags_file})\)$) ]]; then
-          git checkout -b ${1} ${1}
-     else
-          echo -e "Invalid pgModeler version '${1}'.  Valid versions:\n"
-          cat ${tags_file}
-
-          exit 0
-     fi
 }
 
 clone_source

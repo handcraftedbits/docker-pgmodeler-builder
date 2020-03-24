@@ -18,6 +18,10 @@ version `0.9.2` and store the result in `/mnt/windows/pgmodeler`:
 docker run -v /mnt/windows/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder v0.9.2
 ```
 
-If you run the command without specifying a version the container script will for latest valid pgModeler version.
+If you run the command without specifying a version the container script will for latest valid pgModeler version. i.e.
+
+```bash
+docker run -v /mnt/windows/pgmodeler:/opt/pgmodeler handcraftedbits/pgmodeler-builder
+```
 
 Simply run the `pgmodeler.exe` executable stored in your output directory. That's it!
